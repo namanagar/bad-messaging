@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-3">
         <h3>Sign In</h3>
-        <input v-model="signin" class="form-control" placeholder="Enter name or email">
+        <input v-model="signin" class="form-control" placeholder="Enter name or email to join chatroom!">
         <button class="btn btn-primary" @click="login">Submit</button>
       </div>
       <div class="col-lg-3">
@@ -43,11 +43,11 @@ module.exports = {
       var nameCheck = this.users.filter(user => user.name == this.signin)
       var emailCheck = this.users.filter(user => user.email == this.signin)
       if (nameCheck.length > 0){
-        this.$emit('login', { name: nameCheck[0].name, email: nameCheck[0].email })
+        this.$emit('login', nameCheck[0])
         this.signin = ''
       }
       else if (emailCheck.length > 0){
-        this.$emit('login', { name: emailCheck[0].name, email: emailCheck[0].email })
+        this.$emit('login', emailCheck[0])
         this.signin = ''
       }
       else{

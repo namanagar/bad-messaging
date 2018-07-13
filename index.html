@@ -14,7 +14,7 @@
   <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
   <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-  <title>Messaging</title>
+  <title>Chat Room</title>
 </head>
 <body>
   <!-- root element --> 
@@ -24,8 +24,8 @@
         <!-- Vue component that handles creating users and logging in  --> 
         <user @create-user="createUser" @login="login" @logout="logout" :users="users"></user>
       </div>
-      <div v-for="loggedUser of loggedInUser">
-        <interface :user="loggedUser"></interface>
+      <div class="row" v-for="loggedUser of loggedInUsers">
+        <interface :user="loggedUser" @logout="logout" @send-message="sendMessage"></interface>
       </div>
     </div>
   </div>

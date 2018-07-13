@@ -11,7 +11,6 @@ var config = {
 var db = firebase.initializeApp(config).database()
 // global reference to remote data
 var usersRef = db.ref('users')
-var loggedInRef = db.ref('loggedInUser')
 
 // connect Firebase to Vue
 Vue.use(VueFire)
@@ -21,14 +20,16 @@ new Vue({
   data: {
   },
   firebase: {
-    users: usersRef,
-    loggedInUser: loggedInRef,
+    users: usersRef
   },
   components: {
     'user': httpVueLoader('User.vue'),
     'interface': httpVueLoader('Interface.vue')
   },
   computed: {
+    loggedInUsers(){
+      return this.users.filter(user => user.loggedIn == true)
+    }
   },
   methods: {
     //These methods are pretty straightforward based on the name, just updating firebase values based on user changes
@@ -36,14 +37,17 @@ new Vue({
       this.$firebaseRefs.users.push(user)
     },
     login(user){
-      console.log(user)
       /*this.$firebaseRefs.loggedInUser.child('name').set(user.name)
       this.$firebaseRefs.loggedInUser.child('email').set(user.email)
       */
-      this.$firebaseRefs.loggedInUser.push(user)
+      this.$firebaseRefs.users.child(user['.key']).child('loggedIn').set(true)
     },
     logout(user){
-      this.$firebaseRefs.loggedInUser.child(user['.key']).remove()
+      //this.$firebaseRefs.loggedInUser.child(user['.key']).remove()
+      this.$firebaseRefs.users.child(user['.key']).child('loggedIn').set(false)
+    },
+    sendMessage(obj){
+      this.$firebaseRefs.users.child(obj.user['.key']).child('messages').push(obj.message)
     }
   }
 })
