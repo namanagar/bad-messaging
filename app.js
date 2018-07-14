@@ -37,13 +37,9 @@ new Vue({
       this.$firebaseRefs.users.push(user)
     },
     login(user){
-      /*this.$firebaseRefs.loggedInUser.child('name').set(user.name)
-      this.$firebaseRefs.loggedInUser.child('email').set(user.email)
-      */
       this.$firebaseRefs.users.child(user['.key']).child('loggedIn').set(true)
     },
     logout(user){
-      //this.$firebaseRefs.loggedInUser.child(user['.key']).remove()
       this.$firebaseRefs.users.child(user['.key']).child('loggedIn').set(false)
     },
     sendMessage(obj){
